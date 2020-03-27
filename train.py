@@ -28,7 +28,7 @@ train_dataloader =  torch.load(os.path.join('msmarco/models/test_model5', 'train
 
 evaluator1 = BinaryEmbeddingSimilarityEvaluator(dev_dataloader)
 evaluator2 = EmbeddingSimilarityEvaluator(dev_dataloader)
-evaluator = SequentialEvaluator([evaluator1, evaluator2])
+evaluator = SequentialEvaluator([evaluator1, evaluator2], main_score_function = lambda scores: scores[0])
 
 optimizer_class = transformers.AdamW
 optimizer_params = {'lr': 2e-6, 'eps': 1e-6, 'correct_bias': False}
@@ -44,6 +44,6 @@ model_1.fit(train_objectives=[(train_dataloader, train_loss)],
           warmup_steps=warmup_steps,
           optimizer_class=optimizer_class,
           optimizer_params=optimizer_params,
-          output_path=os.path.join(my_model_path, 'model_lre06')) # works only when you have an evaluator
+          output_path=os.path.join(my_model_path, 'model_lre06_not_od')) # works only when you have an evaluator
 
-model_1.save(os.path.join(my_model_path, 'model_lre06'))
+model_1.save(os.path.join(my_model_path, 'model_lre06_not_od_final'))
